@@ -1,5 +1,6 @@
 # Zee Zafra — Portfolio (Next.js)
 
+<<<<<<< HEAD
 Built incrementally per the phased roadmap. This zip contains through
 **Phase 2: Sidebar + Home Hero**.
 
@@ -19,6 +20,11 @@ uploaded yet — each has a comment showing exactly how to swap in a real
 image once you have one.
 
 ## What's in Phase 1 (Foundation)
+=======
+Built incrementally per the phased roadmap. This zip contains **Phase 1: Foundation**.
+
+## What's in Phase 1
+>>>>>>> bec89969c4da81118dc5de0cbf7bb3e8d526fbfd
 
 - Next.js App Router + TypeScript + Tailwind CSS v4 scaffold (no `src/` dir)
 - Visual system wired as CSS theme tokens in `app/globals.css`:
@@ -27,6 +33,7 @@ image once you have one.
 - Dark/light mode via `next-themes` (`components/ThemeProvider.tsx`),
   class-based so it pairs with Tailwind's `dark:` variant
   (see `@custom-variant dark` in `globals.css`)
+<<<<<<< HEAD
 - Empty route stubs, each just a heading: `/`, `/projects`, `/services`,
   `/certifications`, `/hackathon`, `/about`, `/contact`
 
@@ -48,6 +55,16 @@ image once you have one.
 
 No real project/services/certification content yet — that starts Phase 3
 (stat cards + tools strip) and Phase 4 (bento dashboard).
+=======
+- A **temporary** manual theme toggle on the home page
+  (`components/TempThemeToggle.tsx`) — just to prove the wiring works.
+  This gets deleted in Phase 2 once the real sidebar toggle exists.
+- Empty route stubs, each just a heading, so Phase 2's nav has somewhere
+  to link to: `/`, `/projects`, `/services`, `/certifications`,
+  `/hackathon`, `/about`, `/contact`
+
+No real content, images, or the sidebar yet — that starts in Phase 2.
+>>>>>>> bec89969c4da81118dc5de0cbf7bb3e8d526fbfd
 
 ## Run it locally
 
@@ -56,6 +73,7 @@ npm install
 npm run dev
 ```
 
+<<<<<<< HEAD
 Open http://localhost:3000. Things to check:
 - Collapse arrow at the bottom of the sidebar shrinks it to icon-only, and
   it stays collapsed as you click between nav links (state isn't lost on
@@ -64,6 +82,10 @@ Open http://localhost:3000. Things to check:
   sidebar should become a top bar with a hamburger that opens a drawer
 - The theme switch in the sidebar flips light/dark instantly
 - The hero CTA button ("Let's work together") links to `/contact`
+=======
+Open http://localhost:3000. Click the "Toggle theme" button on the home
+page (or change your OS light/dark setting) to confirm the theme switches.
+>>>>>>> bec89969c4da81118dc5de0cbf7bb3e8d526fbfd
 
 ## Push to GitHub
 
@@ -88,6 +110,13 @@ instead of only on your machine.
 
 ## Next phase
 
+<<<<<<< HEAD
 **Phase 3 — Work Outcomes + Tools Strip**: a stat-card row (Projects
 Completed, Years of Experience, etc. — real numbers, not invented ones)
 and a horizontal strip of the tools/skills you actually work with.
+=======
+**Phase 2 — Sidebar + Home Hero**: the persistent sidebar (avatar, name,
+availability badge, social links, nav, theme toggle) and the home page's
+hero section (headline, CTA, portrait). That's also when the first real
+images (your avatar + hero portrait) come in.
+>>>>>>> bec89969c4da81118dc5de0cbf7bb3e8d526fbfd
