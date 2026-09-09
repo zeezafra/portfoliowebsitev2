@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { User } from "lucide-react";
 import { profile } from "@/data/profile";
 import Image from "next/image";
 
@@ -23,11 +22,14 @@ export function Hero() {
           {ctaLabel}
         </Link>
       </div>
-      <Image src="/images/hero-portrait.png" alt={profile.name} width={360} height={440} className="rounded-radius object-cover shadow-card" priority /> 
-      <div className="flex h-64 w-64 shrink-0 items-center justify-center rounded-radius border border-card-border bg-card shadow-card sm:h-80 sm:w-80 md:h-96 md:w-80">
-        <User className="h-20 w-20 text-foreground/20" aria-hidden="true" />
-        <span className="sr-only">Portrait placeholder — photo coming soon</span>
-      </div>
+      <Image
+        src="/images/hero-portrait.png"
+        alt={profile.name}
+        width={360}
+        height={440}
+        className="rounded-radius object-cover shadow-card"
+        priority
+      />
     </section>
   );
 }

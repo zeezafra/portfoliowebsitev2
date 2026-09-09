@@ -1,7 +1,7 @@
 # Zee Zafra — Portfolio (Next.js)
 
 Built incrementally per the phased roadmap. This zip contains through
-**Phase 2: Sidebar + Home Hero**.
+**Phase 3: Work Outcomes + Tools Strip**.
 
 ## ⚠️ Fill these in before it's really "yours"
 
@@ -12,11 +12,16 @@ Open `data/profile.ts` and:
 - Confirm `availability` — is "Available for work" accurate right now?
 - Confirm/edit `hero.headline` and `tagline` — both are placeholders from
   the project brief, easy to swap for your own wording.
+- **`stats` — these are placeholder numbers (10+ projects, 2+ years, 95%,
+  99%), not your real figures.** Replace them before this goes live —
+  publishing made-up stats about your own work isn't something I wanted to
+  do silently.
+- **`tools` — this is a draft list**, inferred from what's actually visible
+  (this project's stack, Photoshop, IT/hardware support, MCP/AI agent dev),
+  not a full inventory of everything you use. Add/remove/reorder freely.
 
-The avatar and hero portrait are initials/icon placeholders
-(`components/Avatar.tsx`, `components/Hero.tsx`) since no photo's been
-uploaded yet — each has a comment showing exactly how to swap in a real
-image once you have one.
+The avatar and hero portrait are set up (see Phase 2 notes below) — no
+outstanding image placeholders left.
 
 ## What's in Phase 1 (Foundation)
 
@@ -46,8 +51,21 @@ image once you have one.
   `components/SocialLinks.tsx`, `components/icons/SocialGlyphs.tsx` —
   supporting pieces used by the sidebar
 
-No real project/services/certification content yet — that starts Phase 3
-(stat cards + tools strip) and Phase 4 (bento dashboard).
+No real project/services/certification content yet — that starts Phase 4
+(bento dashboard).
+
+## What's in Phase 3 (Work Outcomes + Tools Strip)
+
+- `components/StatCards.tsx` — 4 stat cards (Projects Completed, Years of
+  Experience, Client Satisfaction, Uptime/Reliability); each number
+  animates from 0 the first time it scrolls into view (once only, via
+  Framer Motion's `useInView`), not on every re-render
+- `components/ToolsStrip.tsx` — horizontal row of tool/skill chips
+  (icon, name, subtitle); scrolls smoothly on mobile, fixed-width chips
+  so nothing reflows while scrolling
+- `data/profile.ts` extended with `stats` and `tools` — **both currently
+  hold placeholder/draft data, see the warning above**
+- Both render on the home page, below the hero
 
 ## Run it locally
 
@@ -64,6 +82,11 @@ Open http://localhost:3000. Things to check:
   sidebar should become a top bar with a hamburger that opens a drawer
 - The theme switch in the sidebar flips light/dark instantly
 - The hero CTA button ("Let's work together") links to `/contact`
+- Scroll down: the 4 stat numbers should count up from 0 once, the first
+  time they enter the viewport (reload and scroll slowly to see it — it
+  won't replay if you scroll past and back up)
+- The tools strip scrolls horizontally on a narrow/mobile viewport without
+  the chips jumping around
 
 ## Push to GitHub
 
@@ -88,6 +111,7 @@ instead of only on your machine.
 
 ## Next phase
 
-**Phase 3 — Work Outcomes + Tools Strip**: a stat-card row (Projects
-Completed, Years of Experience, etc. — real numbers, not invented ones)
-and a horizontal strip of the tools/skills you actually work with.
+**Phase 4 — Bento Dashboard**: the card-grid layout (Featured Projects,
+About Me, Services, Certifications, Hackathon Achievement) that makes the
+home page read as a dashboard. Filter tabs are visual-only this phase —
+real filtering is Phase 5.
