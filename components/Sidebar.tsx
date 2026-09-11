@@ -85,9 +85,18 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Desktop sidebar */}
+      {/*
+        Desktop sidebar — permanently dark, independent of the site-wide
+        light/dark toggle (which only affects the main content area, per
+        the reference layout). Scoping the `dark` class to this subtree
+        is enough: every color here already comes from the CSS custom
+        properties in globals.css (bg-card, text-foreground, etc.), and
+        those are re-defined by `.dark`, so they cascade to this whole
+        subtree via normal CSS inheritance — no separate "sidebar theme"
+        token set to maintain.
+      */}
       <aside
-        className={`sticky top-0 hidden h-screen shrink-0 flex-col justify-between border-r border-card-border bg-card px-3 py-5 transition-[width] duration-200 md:flex ${
+        className={`dark sticky top-0 hidden h-screen shrink-0 flex-col justify-between border-r border-card-border bg-card px-3 py-5 transition-[width] duration-200 md:flex ${
           collapsed ? "w-20" : "w-64"
         }`}
       >
@@ -137,8 +146,10 @@ export function Sidebar() {
         </div>
       </aside>
 
-      {/* Mobile top bar */}
-      <div className="sticky top-0 z-40 flex items-center justify-between border-b border-card-border bg-card px-4 py-3 md:hidden">
+      {/* Mobile top bar — same permanent-dark treatment as the desktop
+          sidebar, so the nav "shell" reads as one consistent brand
+          element across breakpoints. */}
+      <div className="dark sticky top-0 z-40 flex items-center justify-between border-b border-card-border bg-card px-4 py-3 md:hidden">
         <Link href="/" className="flex items-center gap-2">
           <Avatar name={profile.name} size={32} />
           <span className="text-sm font-semibold text-heading">{profile.name}</span>
@@ -165,7 +176,7 @@ export function Sidebar() {
           }`}
         />
         <div
-          className={`absolute right-0 top-0 flex h-full w-72 max-w-[85vw] flex-col justify-between gap-6 bg-card px-4 py-5 shadow-card transition-transform duration-200 ${
+          className={`dark absolute right-0 top-0 flex h-full w-72 max-w-[85vw] flex-col justify-between gap-6 bg-card px-4 py-5 shadow-card transition-transform duration-200 ${
             mobileOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >

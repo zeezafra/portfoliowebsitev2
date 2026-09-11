@@ -2,8 +2,8 @@ import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 
 /**
- * Shared shell for every bento-grid tile — same card treatment as
- * StatCards/ToolsStrip (border, radius, shadow) plus a consistent
+ * Shared shell for every bento-grid tile — same card treatment used
+ * across the whole dashboard (border, radius, shadow) plus a consistent
  * icon + eyebrow-style title row so the dashboard reads as one system
  * rather than five differently-styled cards.
  */

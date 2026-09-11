@@ -111,6 +111,11 @@ export type Profile = {
   availability: {
     isAvailable: boolean;
     label: string;
+    /** Drafted UI copy for the home dashboard's bottom banner strip —
+     *  not a factual claim like stats/certifications, so written
+     *  directly (same reasoning as `contact.headline`/`subtext` below).
+     *  Edit freely. */
+    banner: string;
   };
   socials: SocialLink[];
   hero: {
@@ -194,6 +199,7 @@ export const profile: Profile = {
   availability: {
     isAvailable: true,
     label: "Available for work",
+    banner: "Open to freelance projects, part-time roles, and collaborative work.",
   },
   socials: [
     { label: "LinkedIn", href: "", icon: "linkedin" },
@@ -276,7 +282,55 @@ export const profile: Profile = {
       ],
     },
   ],
-  certifications: [],
+  // Filled in from Zee's uploaded certificate scans — names/issuers/dates
+  // transcribed directly from each certificate, nothing invented.
+  certifications: [
+    {
+      name: "Outstanding Technical Assistant",
+      issuer: "Department of Network and Technical Services (DNTS)",
+      image: "/images/certifications/dnts-outstanding-technical-assistant.jpg",
+    },
+    {
+      name: "Junior Engineer Recognition",
+      issuer: "Department of Network and Technical Services (DNTS)",
+      image: "/images/certifications/dnts-junior-engineer.jpg",
+    },
+    {
+      name: "Real-World Web Development Seminar",
+      issuer: "Asian College of Technology (ACT)",
+      image: "/images/certifications/act-real-world-web-development.jpg",
+    },
+    {
+      name: "Cybersecurity Seminar-Workshop",
+      issuer: "Asian College of Technology (ACT)",
+      image: "/images/certifications/act-cybersecurity-workshop.jpg",
+    },
+    {
+      name: "Academic Excellence Recognition",
+      issuer: "Asian College of Technology (ACT)",
+      image: "/images/certifications/act-academic-recognition.jpg",
+    },
+    {
+      name: "Network Architecture & Security Seminar",
+      issuer: "Asian College of Technology (ACT)",
+      image: "/images/certifications/act-network-architecture-security.jpg",
+    },
+    {
+      name: "On-the-Job Training Completion (240 Hours)",
+      issuer: "Yichan Techtrade and Builders Corp",
+      image: "/images/certifications/yichan-ojt-completion.jpg",
+    },
+    {
+      name: "Solana x AI Hackathon Completion",
+      issuer: "Solana Superteam PH & AI Generation Cebu",
+      image: "/images/certifications/solana-ai-hackathon-completion.jpg",
+    },
+  ],
+  // TODO(Zee): name/date/photos are confirmed from your certificate +
+  // event photos. result/description/problem/techUsed/writeup still need
+  // your input — see the chat message for what's needed. Left blank
+  // rather than guessed at a placement or technical narrative I don't
+  // actually know.
   hackathon: {
     name: "",
     result: "",
@@ -284,7 +338,10 @@ export const profile: Profile = {
     problem: "",
     techUsed: [],
     writeup: "",
-    images: [],
+    images: [
+      "/images/hackathon/solana-ai-consumer-hack-team.jpg",
+      "/images/hackathon/solana-ai-workshop.jpg",
+    ],
   },
   experience: [],
   testimonials: [],

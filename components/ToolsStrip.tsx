@@ -1,5 +1,6 @@
-import { Code2, Palette, Image as ImageIcon, HardDrive, Headset, Bot, Globe } from "lucide-react";
+import { Code2, Palette, Image as ImageIcon, HardDrive, Headset, Bot, Globe, Layers } from "lucide-react";
 import { profile, type Tool, type ToolIcon } from "@/data/profile";
+import { BentoCard } from "@/components/bento/BentoCard";
 
 const ICONS: Record<ToolIcon, typeof Code2> = {
   web: Globe,
@@ -14,7 +15,7 @@ const ICONS: Record<ToolIcon, typeof Code2> = {
 function ToolChip({ icon, name, subtitle }: Tool) {
   const Icon = ICONS[icon];
   return (
-    <div className="flex w-64 shrink-0 snap-start items-center gap-3 rounded-radius border border-card-border bg-card p-4 shadow-card">
+    <div className="flex w-64 shrink-0 snap-start items-center gap-3 rounded-radius border border-card-border bg-background/40 p-4">
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
         <Icon className="h-4 w-4" aria-hidden="true" />
       </span>
@@ -26,24 +27,30 @@ function ToolChip({ icon, name, subtitle }: Tool) {
   );
 }
 
+/**
+ * Now a titled BentoCard (folder-style "Layers" icon) instead of a bare
+ * heading + strip, for the same one-system card treatment as every
+ * other dashboard section — matches the reference layout's bordered
+ * "Tools I work with" panel. Spans the full width of both dashboard
+ * columns on the home page (see app/page.tsx), not just the main
+ * column, same as the reference.
+ */
 export function ToolsStrip() {
   return (
-    <section className="px-6 py-8 md:px-12">
-      <h2 className="mb-4 text-sm font-semibold uppercase tracking-wide text-foreground/50">
-        Tools I Work With
-      </h2>
+    <BentoCard title="Tools I Work With" icon={Layers} id="tools">
       {/*
         Plain horizontal scroll (not an auto-scrolling marquee) — a
         reasonable default for now. Every chip has a fixed width (w-64,
         shrink-0) so scrolling never reflows neighboring chips, which is
-        what avoids layout shift on mobile. Happy to switch this to a
-        slow auto-scroll marquee instead if you'd prefer that look.
+        what avoids layout shift on mobile. Bleed margins match
+        BentoCard's own padding (p-5/md:p-6) so the strip runs edge to
+        edge inside the card.
       */}
-      <div className="scrollbar-none -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 md:mx-0 md:px-0">
+      <div className="scrollbar-none -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-1 md:-mx-6 md:px-6">
         {profile.tools.map((tool) => (
           <ToolChip key={tool.name} {...tool} />
         ))}
       </div>
-    </section>
+    </BentoCard>
   );
 }

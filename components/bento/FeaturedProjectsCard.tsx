@@ -57,15 +57,19 @@ export function FeaturedProjectsCard({
       </div>
 
       {visibleProjects.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        // Horizontal scroll strip (same -mx bleed + snap pattern as
+        // ToolsStrip) instead of a 2x2 grid: keeps this card's height to
+        // one row of cards regardless of how many projects match the
+        // active filter, so it doesn't tower over About Me next to it.
+        <div className="scrollbar-none -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 pb-1">
           {visibleProjects.map((project) => {
             const Icon = CATEGORY_ICONS[project.category];
             return (
               <div
                 key={project.slug}
-                className="flex flex-col gap-3 rounded-radius border border-card-border bg-background/40 p-3"
+                className="flex w-64 shrink-0 snap-start flex-col gap-3 rounded-radius border border-card-border bg-background/40 p-3 sm:w-72"
               >
-                <PlaceholderThumb icon={Icon} className="h-28 w-full" />
+                <PlaceholderThumb icon={Icon} className="h-24 w-full" />
                 <div className="flex flex-col gap-1">
                   <span className="w-fit rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
                     {CATEGORY_LABELS[project.category]}

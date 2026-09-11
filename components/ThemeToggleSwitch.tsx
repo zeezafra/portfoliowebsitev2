@@ -26,7 +26,9 @@ export function ThemeToggleSwitch({ collapsed = false }: { collapsed?: boolean }
         collapsed ? "w-10 justify-center" : "w-full justify-between"
       }`}
     >
-      {!collapsed && <span className="text-xs font-medium">Theme</span>}
+      {!collapsed && (
+        <span className="text-xs font-medium">{isDark ? "Dark" : "Light"}</span>
+      )}
       <span className="relative inline-flex h-5 w-9 shrink-0 items-center rounded-full bg-foreground/15">
         <span
           className={`inline-flex h-4 w-4 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform ${

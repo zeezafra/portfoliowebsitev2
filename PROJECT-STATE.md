@@ -1,11 +1,196 @@
 # Project State
 
+## Latest session — Certifications filled in, Hackathon/socials partially blocked on Zee's input
+Zee sent a `img.rar` with real certificate scans and event photos in response
+to the request to fill in Certifications/Hackathon/socials content.
+
+**Done:**
+- `public/images/certifications/` (new) — 8 real certificate scans, converted
+  PNG→JPEG (quality 85) to cut file size ~85% with no visible loss on scanned
+  documents: DNTS "Outstanding Technical Assistant" and "Junior Engineer"
+  appreciation certs, three ACT (Asian College of Technology) seminar/workshop
+  certs (Real-World Web Development, Cybersecurity, Network Architecture &
+  Security), one ACT Certificate of Recognition for academic performance
+  (2nd Year BSCpE, 1st Sem AY2023-2024, 1.45 weighted average), the Yichan
+  Techtrade OJT completion certificate (240 hours), and the Solana x AI
+  Hackathon completion certificate.
+- `data/profile.ts` — `certifications` array filled with all 8 (name/issuer
+  transcribed directly from each scan, not phrased from a template).
+- `public/images/hackathon/` (new) — 2 real event photos (Solana AI Consumer
+  Hack team photo, a Solana workshop photo), wired into
+  `profile.hackathon.images`.
+- Verified: `tsc --noEmit` clean, `eslint .` clean, `/`, `/certifications`,
+  `/hackathon` all 200 under `next dev`; certifications render with real
+  thumbnails and captions.
+
+**Deliberately left blank — needs Zee's input, not guessable from the files
+he sent:**
+- `hackathon.name` / `.result` / `.description` / `.problem` / `.techUsed` /
+  `.writeup` — the certificate confirms the event ("Solana x AI Hackathon",
+  Demo Day Oct 12, 2024) and a banner photo suggests the event may have been
+  branded "Solana AI Consumer Hack", but neither says whether Zee placed/won
+  or only participated, nor what he actually built (problem/tech
+  stack/narrative). `hackathon.name` is left empty on purpose rather than
+  half-filled — `HackathonCard`/`hackathon/page.tsx` show a clean single
+  fill-in prompt while `name` is empty, but would show a broken-looking
+  card (populated title, blank result line) if `name` were filled without
+  `result`/`description`.
+- `socials` — the uploaded files include a "Web3 Portfolio" personal pitch
+  deck (Zee's own web3-community slide deck, not a hackathon submission —
+  distinct from the images actually needed here) whose Contact slide lists
+  Discord/Twitter/Telegram handles, not LinkedIn/GitHub/Facebook (the three
+  the `SocialLink` type currently supports). Left `socials` unchanged
+  pending Zee's answer on whether to extend `SocialLink`'s icon union to
+  add Discord/Twitter/Telegram, or whether he has actual LinkedIn/GitHub/
+  Facebook URLs to use instead.
+- Other images in the same `img.rar` (Multi-Purpose Training Board and
+  Web3-Portfolio project screenshots, Work Technical Assistant / Freelance
+  TA photos, MiZee Tech logo) look relevant to Featured Projects thumbnails
+  and Experience, not this session's Certifications/Hackathon/socials scope
+  — left untouched per the roadmap's "touch only what the phase needs" rule.
+
+
 ## Project
 Zee Zafra — Next.js portfolio site (IT Technician & Web Developer),
 built incrementally per `references/roadmap.md` in the
 `portfolio-nextjs-builder` skill.
 
-## Current milestone
+## Note: two roadmaps now apply to this codebase
+- `portfolio-nextjs-builder` skill — the original build-from-scratch
+  roadmap (Phase 1–10 +11) used to get the site to its current feature
+  set. Currently at its Phase 8 (contact page + email delivery).
+- `zee-zafra-portfolio-v2` skill — a separate 20-phase QA/improvement
+  pass over the now-mostly-built site (layout/overflow, placeholder
+  removal, content polish, a11y, performance, final QA). Its Phase 1
+  (Layout Foundation & Responsiveness) was completed this session — see
+  below. The two roadmaps are tracked independently; phase numbers are
+  not shared between them.
+
+## Current milestone (zee-zafra-portfolio-v2 roadmap)
+Phase 1 — Layout Foundation & Responsiveness: COMPLETE.
+- `app/layout.tsx`: added `min-w-0` to `<main>` (defensive flex-overflow
+  guard — a flex child without it can force the column wider than the
+  space the sidebar leaves, pushing `<body>` past the viewport) and
+  wrapped `{children}` in a `mx-auto w-full max-w-[1280px]` container so
+  page content is capped and centered on large/ultra-wide desktop
+  screens, per the spec's recommended 1200–1280px content container.
+  Per-page horizontal padding (`px-6 md:px-12`, already consistent
+  across every route) was left untouched rather than duplicated at the
+  container level.
+- Audited for the spec's other listed overflow culprits (100vw/w-screen,
+  hard-coded pixel widths, fixed grid tracks, `whitespace-nowrap`,
+  unguarded `overflow-` usage) — none found beyond intentional,
+  already-correct patterns (ToolsStrip's and FeaturedProjectsCard's
+  horizontal scroll strips use the negative-margin bleed technique
+  correctly; the mobile drawer is `fixed` and capped at `max-w-[85vw]`;
+  the lightbox modal is `fixed inset-0` with `max-h-[85vh] max-w-4xl`).
+  No other Phase 1 code changes were needed.
+- Verified: `tsc --noEmit` clean, `eslint .` clean, all seven routes
+  (`/`, `/about`, `/projects`, `/services`, `/certifications`,
+  `/hackathon`, `/contact`) return 200 under `next dev` with no runtime
+  errors. `next build` still fails only on the pre-existing, unrelated
+  `next/font/google` → `fonts.googleapis.com` sandbox network
+  restriction (documented below) — not a regression from this change.
+- **Found during the audit, not fixed (out of Phase 1's scope — belongs
+  to `zee-zafra-portfolio-v2` Phase 2, "Remove Placeholders &
+  Unfinished Content"):** `app/projects/page.tsx` and
+  `app/services/page.tsx` are still the original bare stubs
+  ("Content coming in a later phase.") despite `PROJECT-STATE.md`
+  previously describing project data/filtering and case-study pages as
+  done — the case-study *detail* route (`/projects/[slug]`) and the
+  bento dashboard's project card both work, but the `/projects` and
+  `/services` listing pages themselves were never filled in.
+
+### Ad-hoc fix — Featured Projects / About Me height mismatch (this session)
+Zee flagged via screenshots that the About Me card had a large empty
+gap below its bio text.
+- **Root cause:** `BentoDashboard.tsx` set `lg:row-span-2` on both
+  `FeaturedProjectsCard` and `AboutMeCard`, forcing About Me to stretch
+  to match Featured Projects' old 2x2 project-card grid — About Me's
+  own content (avatar, bio, 3 facts) is much shorter, so the extra
+  height showed up as dead space.
+- **Fix:** `FeaturedProjectsCard`'s project cards (previously a
+  `sm:grid-cols-2` 2x2 grid) are now a horizontal-scroll strip — same
+  `-mx` bleed + `scrollbar-none` + `snap-x` pattern already used by
+  `ToolsStrip` and this card's own filter-chip row — so the card is one
+  row tall no matter which filter is active. `lg:row-span-2` removed
+  from both cards in `BentoDashboard.tsx`; they now size to their own
+  content and sit side by side in row one, with Services/
+  Certifications/Hackathon auto-flowing into row two as before.
+- **Verified:** `tsc --noEmit` clean, `eslint` clean on both changed
+  files. Full `next build` still blocked only by the pre-existing
+  sandboxed `fonts.googleapis.com` restriction noted above — unrelated
+  to this change, and won't apply on Vercel.
+- **Deliberately not touched:** the "Based in: *add this*" placeholder
+  (content, not layout — still Zee's to fill in) and the black "N"
+  badge visible in the screenshots (Next.js's dev-mode indicator,
+  dev-only, absent from production/deployed builds).
+
+## Latest session — home dashboard layout fix (against reference screenshot)
+Zee attached the original reference screenshot again and asked to fix the
+home page against it. Comparing the actual reference image pixel-by-pixel
+against the built site turned up a real structural gap: the home page was
+one long full-width stack (Hero → stats row → tools strip → wrapping bento
+grid), but the reference is a genuine two-column dashboard — a main
+content column plus a persistent right rail (Work Outcomes / About Me /
+Hackathon Achievement / a CTA), with "Tools I Work With" as the one row
+that spans full width between them. This was a cross-cutting fix touching
+Phase 2–4 territory (Hero, stats, tools strip, bento dashboard), flagged
+here rather than silently folded into a later phase.
+
+**Changes:**
+- `app/page.tsx` rebuilt as: [Hero | Work Outcomes] row → full-width Tools
+  strip → [Featured Projects + Services/Certifications + availability
+  banner | About Me + Hackathon + Get in Touch] row. Collapses to a single
+  stack in source order below `lg`.
+- `components/StatCards.tsx` → replaced by `components/bento/WorkOutcomesCard.tsx`:
+  same count-up stat tiles, now a titled `BentoCard` ("Work Outcomes") in
+  the right rail instead of a bare full-width row. No "View all" link —
+  there's no real destination page for a fuller stat breakdown, and a dead
+  link would be worse than none.
+- `components/Hero.tsx`: now enclosed in one card (border/radius/shadow +
+  a soft primary-tinted gradient wash) instead of sitting bare on the page
+  background. Added a small dashed tag under the portrait reusing Zee's
+  existing `tagline` ("Build · Support · Improve") — deliberately not the
+  reference screenshot's own annotation copy, per the roadmap's
+  structure-yes/copy-no rule for that image.
+- `components/ToolsStrip.tsx`: now wrapped in `BentoCard` (titled, bordered)
+  instead of a bare `<h2>` + strip, for the same one-system card treatment
+  as every other section. Given `id="tools"` for anchor-linking.
+- `components/bento/BentoDashboard.tsx`: trimmed to just the main column's
+  lower content (Featured Projects, Services+Certifications row,
+  availability banner) — About Me / Hackathon / Get in Touch moved out.
+- New `components/RightRail.tsx`: About Me, Hackathon, Get in Touch,
+  stacked; new `components/bento/GetInTouchCard.tsx`: small CTA reusing
+  `profile.contact.headline` rather than inventing new marketing copy.
+- New `components/AvailabilityBanner.tsx` + new `profile.availability.banner`
+  field (drafted UI copy, same precedent as `contact.headline`/`subtext` —
+  not a factual claim, so written directly: "Open to freelance projects,
+  part-time roles, and collaborative work.").
+- New `components/TopBar.tsx` + `components/SearchBar.tsx`, mounted in
+  `app/layout.tsx` so it's persistent across every route (not just home).
+  The search is a real, working client-side quick-search over
+  projects/tools/services/certifications/hackathon (substring match,
+  dropdown of up to 6 results, "no matches" state) — not decorative
+  chrome standing in for a feature that doesn't exist. `ServicesCard`
+  gained an `id` prop so its anchor (`/#services`) resolves.
+- `components/bento/BentoCard.tsx`: one stale doc-comment fixed (referenced
+  the now-deleted `StatCards.tsx`).
+
+**Deliberately not done:** no backend/full-text search, no new page for a
+detailed stats breakdown, no attempt to replicate the reference
+screenshot's own hero annotation copy or exact palette (per the roadmap's
+standing rule that the screenshot is a structural reference only).
+
+**Verified:** `tsc --noEmit` clean, `eslint .` clean (zero warnings after
+removing one now-unneeded eslint-disable comment). All seven routes
+(`/`, `/about`, `/projects`, `/services`, `/certifications`, `/hackathon`,
+`/contact`) return 200 under `next dev` with no runtime errors.
+`next build` still fails only on the pre-existing, unrelated
+`next/font/google` → `fonts.googleapis.com` sandbox network restriction
+documented below — not a regression from this session's changes.
+
+## Previous milestone (portfolio-nextjs-builder roadmap)
 Phase 8 complete — Contact Page, including real email delivery.
 FAQ accordion, contact form + API route with honeypot/validation/
 rate-limiting, résumé download, availability + socials reused from
@@ -63,6 +248,55 @@ the sidebar, and the contact form now actually sends via Resend.
     `RESEND_API_KEY` plus normal internet access, neither available
     here (same category of limitation as the `next/font/google` build
     issue below).
+
+## Latest session — sidebar/nav shell darkened to match reference UI
+Zee re-attached the reference dashboard screenshot and asked to continue
+the fix against it. Comparing side-by-side (Playwright screenshot of the
+live build vs. the reference), the home page's two-column layout,
+Work Outcomes card, Tools strip, and bento grid all already matched
+structurally from the prior session — but the **sidebar** didn't: the
+reference uses a persistently dark navy nav shell (with a real profile
+photo) regardless of the site's light/dark toggle, while the built
+sidebar was just following the global theme (so it rendered white in
+light mode instead of staying dark). This is also what the roadmap's
+"Visual direction" section calls for ("Keep the dark theme... Keep the
+left sidebar on desktop") — the toggle is meant to switch the *content*
+area's theme, not the nav shell's.
+
+**Changes:**
+- `components/Sidebar.tsx`: added a `dark` class to the desktop `<aside>`,
+  the mobile top bar, and the mobile drawer panel. No new color tokens
+  needed — every sidebar element already reads color via the CSS custom
+  properties in `globals.css` (`bg-card`, `text-foreground`,
+  `border-card-border`, etc.), and those are already re-defined under
+  `.dark`. Scoping that class to the sidebar subtree makes the existing
+  dark palette cascade there via normal CSS inheritance, independent of
+  whatever class is on `<html>`. Verified by toggling the theme switch:
+  main content flips light/dark as before, sidebar stays dark navy
+  throughout, collapsed icon-rail state included.
+- `components/Avatar.tsx`: replaced the "ZZ" initials placeholder with
+  the real portrait (`/images/hero-portrait.png`) — the same asset
+  already used by `Hero.tsx` and `AboutMeCard.tsx`, just reused here
+  rather than a new/invented image, per the reference's circular profile
+  photo at the top of the sidebar.
+- `components/ThemeToggleSwitch.tsx`: label now reads "Light" / "Dark"
+  based on the resolved theme instead of a static "Theme", matching the
+  reference's toggle copy.
+
+**Deliberately not changed this session:** Featured Projects' horizontal-
+scroll-strip layout (still a reasoned trade-off from the prior session,
+not a regression); `BentoCard`'s uppercase eyebrow-style titles (an
+intentional, already-documented typographic system — reference uses
+sentence case, but this isn't a bug); the placeholder stat values,
+empty certifications/hackathon/socials fields (all pre-existing,
+correctly-flagged TODOs for Zee to fill in, out of scope for a layout
+fix).
+
+**Verified:** `tsc --noEmit` clean, `eslint .` clean on every changed
+file. All seven routes return 200 under `next dev`. Checked desktop
+(1600px), collapsed sidebar, mobile (390px) top bar + drawer, and both
+light/dark content states via Playwright screenshots — sidebar renders
+correctly and legibly (proper contrast) in every state; no overflow.
 
 ## Current implementation
 - Next.js App Router + TypeScript + Tailwind v4 (CSS-first theme in
@@ -149,6 +383,11 @@ the site). Set the same variable in Vercel's dashboard for the deployed
 site — never commit the key itself.
 
 ## Next task
-Phase 9 (SEO, Performance & Accessibility) is next on the roadmap, once
+Sidebar now matches the reference. Remaining visual gaps vs. the
+reference, if Zee wants them addressed next: real photos for the four
+Featured Projects thumbnails (currently placeholder icons — can't be
+filled without real screenshots), and the still-empty Certifications /
+Hackathon / socials fields. Otherwise, Phase 9 (SEO, Performance &
+Accessibility) is next on the `portfolio-nextjs-builder` roadmap, once
 Zee has a `RESEND_API_KEY` in place (or wants to defer that further and
 just move on — the form degrades gracefully either way).

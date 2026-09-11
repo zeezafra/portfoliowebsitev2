@@ -28,9 +28,15 @@ function ServiceColumn({ icon, title, bullets }: Service) {
   );
 }
 
-export function ServicesCard({ className = "" }: { className?: string }) {
+export function ServicesCard({
+  className = "",
+  id,
+}: {
+  className?: string;
+  id?: string;
+}) {
   return (
-    <BentoCard title="Services" icon={Wrench} className={className}>
+    <BentoCard title="Services" icon={Wrench} className={className} id={id}>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {profile.services.map((service) => (
           <ServiceColumn key={service.title} {...service} />

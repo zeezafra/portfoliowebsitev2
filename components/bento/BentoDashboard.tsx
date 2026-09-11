@@ -1,30 +1,26 @@
 import { FeaturedProjectsCard } from "@/components/bento/FeaturedProjectsCard";
-import { AboutMeCard } from "@/components/bento/AboutMeCard";
 import { ServicesCard } from "@/components/bento/ServicesCard";
 import { CertificationsCard } from "@/components/bento/CertificationsCard";
-import { HackathonCard } from "@/components/bento/HackathonCard";
+import { AvailabilityBanner } from "@/components/AvailabilityBanner";
 
 /**
- * Home-page card grid. Layout (desktop, lg+):
- *
- *   [ Featured Projects (2 cols x 2 rows) ] [ About Me (1 col x 2 rows) ]
- *   [ Services (1 col) ] [ Certifications (1 col) ] [ Hackathon (1 col) ]
- *
- * Featured Projects and About Me are the tall left/right anchors; the
- * remaining three sit in a row underneath. Below `lg` everything
- * collapses to a single/double column stack in source order.
+ * Main-column stack of the home dashboard's lower section: Featured
+ * Projects, then Services and Certifications side by side, then the
+ * availability banner. About Me / Hackathon Achievement / Get in Touch
+ * now live in the persistent right rail instead (see RightRail.tsx) —
+ * this is a structural fix to match the reference layout's true
+ * two-column dashboard (main column + fixed-width rail) rather than
+ * the single wrapping bento grid this section used to be.
  */
 export function BentoDashboard() {
   return (
-    <section className="grid grid-cols-1 gap-4 px-6 pb-16 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:auto-rows-[minmax(0,auto)]">
-      <FeaturedProjectsCard
-        id="featured-projects"
-        className="md:col-span-2 lg:col-span-2 lg:row-span-2"
-      />
-      <AboutMeCard className="md:col-span-2 lg:col-span-1 lg:row-span-2" />
-      <ServicesCard className="md:col-span-2 lg:col-span-1" />
-      <CertificationsCard />
-      <HackathonCard />
-    </section>
+    <div className="flex flex-col gap-4">
+      <FeaturedProjectsCard id="featured-projects" />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <ServicesCard id="services" />
+        <CertificationsCard />
+      </div>
+      <AvailabilityBanner />
+    </div>
   );
 }
